@@ -28,7 +28,7 @@ def import_txns(filename):
     company = data[1][0]
     Transaction = namedtuple('Txn', ['txn_type', 'cash_acct', 'date', 'desc', 'amount', 'acct'])
     # all other transaction data on line index 2
-    txn_data = data[2:3]
+    txn_data = data[2:]
     print(txn_data)
     txns = []
     for record in txn_data:
