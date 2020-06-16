@@ -1,0 +1,1 @@
+{"format": "standard", "full_name": "Standard Format for Bank Transactions", "company_name_location": [0, 0], "fields": ["txn_type", "cash_acct", "transfer_dest", "date", "desc", "amount", "acct"]}

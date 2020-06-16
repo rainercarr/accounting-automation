@@ -1,7 +1,11 @@
+import accutil
 from automateddialog import *
 from bwinstance import *
 from collections import namedtuple
 import csv
+import datetime
+from dateutil.parser import parse
+from os import path
 import sys
 
 class EnterBankTransactions(AutomatedDialog):
@@ -20,12 +24,12 @@ class EnterBankTransactions(AutomatedDialog):
 
     def import_txns(self):
         data = list(csv.reader(open(self.txn_csv)))
-        # company name needs to be on line index 1
-        self.company = data[1][0]
-        # all other transaction data on line index 2 and below
+        # company name needs to be on line index 0
+        self.company = data[0][0]
+        # all other transaction data on line index 1 and below
         # transaction format
         Transaction = namedtuple('Transaction', ['txn_type', 'cash_acct', 'transfer_dest', 'date', 'desc', 'amount', 'acct'])
-        txn_data = data[2:]
+        txn_data = accutil.remove_blank_lines(data[1:])
         print(txn_data)
         self.txns = []
         for record in txn_data:
@@ -91,6 +95,7 @@ class EnterBankTransactions(AutomatedDialog):
             self.enter_acct(record.acct)
         self.post()
         self.ok_post_prior_month()
+        self.log_record_entry(record)
         
     def select_deposit(self):
         self.select_transaction_type()
@@ -123,7 +128,7 @@ class EnterBankTransactions(AutomatedDialog):
     def enter_date(self, date):
         pyautogui.moveTo(1117, 472)
         pyautogui.doubleClick(1117, 472)
-        pyautogui.typewrite(date)
+        pyautogui.typewrite(accutil.get_clean_date(date))
         
     def enter_amount(self, amount):
         pyautogui.moveTo(836, 471)
@@ -156,6 +161,19 @@ class EnterBankTransactions(AutomatedDialog):
         pyautogui.moveTo(889, 592)
         pyautogui.click(889, 592)
 
+    def log_record_entry(self, record):
+        entry_date = accutil.get_year_month(record.date)
+        logfile_name = '_'.join([entry_date, "EnterBankTransactions", "log"])
+        filepath = self.log_folder + logfile_name + '.csv'
+        file = None
+        if not path.isfile(filepath):
+            file = open(filepath, 'w', newline='')
+            file.close()
+        file = open(filepath, 'a', newline='')
+        csvwriter = csv.writer(file)
+        entry = list(record) + [accutil.get_todays_date()] 
+        csvwriter.writerow(entry)
+
     def close(self):
         pyautogui.moveTo(1230, 347)
         pyautogui.click(1230, 347)
@@ -167,7 +185,7 @@ python enterbanktransactions.py data_file username password
 if __name__ == '__main__':
     data_file = sys.argv[1]
     username, password = sys.argv[2:4]
-    bw = BWInstance(username, password)
+    # bw = BWInstance(username, password)
     e = EnterBankTransactions(data_file)
-    bw.close()
+    # bw.close()
         

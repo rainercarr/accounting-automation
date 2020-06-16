@@ -12,6 +12,8 @@ class AutomatedDialog:
         self.warning = '''
         WARNING: all windows other than the terminal must be minimized. Please take the next few seconds to do that.
         '''
+        # set the log path for all automated action logs
+        self.log_folder = './logs/'
         self.setup()
         self.initial_warning()
         self.run()

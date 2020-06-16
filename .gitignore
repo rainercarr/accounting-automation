@@ -1,8 +1,11 @@
 .git/
-__pycache__/
+*__pycache__/
 *.pyc
 *.csv
 data/
 old/
 Thumbs.db
-*_log.csv
+logs/
+config/pnc.json
+config/sbh.json
+config/paypal.json
