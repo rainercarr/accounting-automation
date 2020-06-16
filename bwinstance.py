@@ -17,7 +17,7 @@ class BWInstance(AutomatedDialog):
         
     def open(self):
         Popen(['Z:\Sage\BWProg\\BWLauncher.exe'])
-        time.sleep(7)
+        time.sleep(10)
     
     def enter_username(self):
         rel_x = 9

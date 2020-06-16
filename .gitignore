@@ -5,3 +5,4 @@ __pycache__/
 data/
 old/
 Thumbs.db
+*_log.csv
