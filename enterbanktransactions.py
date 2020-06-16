@@ -22,15 +22,16 @@ class EnterBankTransactions(AutomatedDialog):
         data = list(csv.reader(open(self.txn_csv)))
         # company name needs to be on line index 1
         self.company = data[1][0]
-        Transaction = namedtuple('Transaction', ['txn_type', 'cash_acct', 'date', 'desc', 'amount', 'acct'])
-        # all other transaction data on line index 2
+        # all other transaction data on line index 2 and below
+        # transaction format
+        Transaction = namedtuple('Transaction', ['txn_type', 'cash_acct', 'transfer_dest', 'date', 'desc', 'amount', 'acct'])
         txn_data = data[2:]
         print(txn_data)
         self.txns = []
         for record in txn_data:
             self.txns.append(Transaction._make(record))
 
-    # May want to move this to BWInstance because it is general.
+    # Want to move this to BWInstance because it is general.
     def select_company(self):
         self.click_company_button()
         if self.company == 'Mint Creek':
@@ -55,6 +56,7 @@ class EnterBankTransactions(AutomatedDialog):
 
     # WARNING: Enter Bank Transactions window always opens in same location,
     # so any actions inside it have an absolute location!
+    # Change in future to improve compatibility with multiple host computers
     def open(self):    
         #click CM
         self.click(20, 3)
@@ -70,35 +72,53 @@ class EnterBankTransactions(AutomatedDialog):
             self.enter_txn(record)
         
     def enter_txn(self, record):
-        if record.txn_type == 'Deposit':
-            self.select_deposit()
-        elif record.txn_type == 'Charge':
-            self.select_charge()
-        
-        self.enter_cash_acct(record.cash_acct)
-        self.enter_date(record.date)
-        self.enter_amount(record.amount)
-        self.enter_desc(record.desc)
-        self.enter_acct(record.acct)
+        if record.txn_type == 'Transfer':
+            self.select_transfer()
+            self.enter_cash_acct(record.cash_acct)
+            self.enter_transfer_dest(record.transfer_dest)
+            self.enter_date(record.date)
+            self.enter_amount(record.amount)
+            self.enter_desc(record.desc)
+        else:
+            if record.txn_type == 'Deposit':
+                self.select_deposit()
+            elif record.txn_type == 'Charge':
+                self.select_charge()    
+            self.enter_cash_acct(record.cash_acct)
+            self.enter_date(record.date)
+            self.enter_amount(record.amount)
+            self.enter_desc(record.desc)
+            self.enter_acct(record.acct)
         self.post()
         self.ok_post_prior_month()
         
     def select_deposit(self):
-        pyautogui.moveTo(867, 392)
-        pyautogui.click(867, 392)
+        self.select_transaction_type()
         pyautogui.moveTo(815, 405)
         pyautogui.click(815, 405)
         
     def select_charge(self):
-        pyautogui.moveTo(867, 392)
-        pyautogui.click(867, 392)
+        self.select_transaction_type()
         pyautogui.moveTo(820, 418)
         pyautogui.click(820, 418)
 
+    def select_transfer(self):
+        self.select_transaction_type()
+        pyautogui.moveTo(828, 455)
+        pyautogui.click(828, 455)
+
+    def select_transaction_type(self):
+        pyautogui.moveTo(867, 392)
+        pyautogui.click(867, 392)
+        
     def enter_cash_acct(self, cash_acct):
         pyautogui.moveTo(820, 418, duration=1)
         pyautogui.click(820, 418)
         pyautogui.typewrite(cash_acct)
+
+    def enter_transfer_dest(self, transfer_dest):
+        pyautogui.click(1048, 418)
+        pyautogui.typewrite(transfer_dest)
         
     def enter_date(self, date):
         pyautogui.moveTo(1117, 472)
@@ -139,7 +159,11 @@ class EnterBankTransactions(AutomatedDialog):
     def close(self):
         pyautogui.moveTo(1230, 347)
         pyautogui.click(1230, 347)
-    
+        
+'''
+To run, type at command line:
+python enterbanktransactions.py data_file username password
+'''
 if __name__ == '__main__':
     data_file = sys.argv[1]
     username, password = sys.argv[2:4]

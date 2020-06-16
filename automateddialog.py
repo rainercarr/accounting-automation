@@ -1,9 +1,10 @@
 from abc import abstractmethod
 import pyautogui
 import time
-
-# this is the parent class for each class where a certain task is implemented.
-# since each class requires certain points in a dialog box to be located, and a sequence of mouse movements, clicks, and text entries to be completed, basic actions can be commonly implemented here
+'''
+this is the parent class for each class where a certain task is implemented.
+since each class requires certain points in a dialog box to be located, and a sequence of mouse movements, clicks, and text entries to be completed, basic actions can be commonly implemented here
+'''
 
 class AutomatedDialog:
     def __init__(self):
@@ -25,9 +26,11 @@ class AutomatedDialog:
         pyautogui.PAUSE = 1
         pyautogui.FAILSAFE = True
 
-    # this method should contain method calls for all gui actions to be performed
-    # pre-importing/processing of data should occur here as well
-    # must be second method of child class, after __init__()
+    '''
+    this method should contain method calls for all gui actions to be performed
+    pre-importing/processing of data should occur here as well
+    must be second method of child class, after __init__()
+    '''
     @abstractmethod
     def run(self):
         pass
