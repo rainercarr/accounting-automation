@@ -46,7 +46,6 @@ class AutomatedDialog:
     def set_ref_location(self):
         self.ref = pyautogui.locateCenterOnScreen(self.ref_image)
         assert(self.ref is not None), "Reference location not found"
-        print(self.ref)
 
     # close window after data entry complete
     @abstractmethod

@@ -15,3 +15,10 @@ Dependencies
 Python 3 (only has been tested on 3.8)
 PyAutoGUI 0.9.50+
 dateutil 2.8.1+ (pip package name "python-dateutil")
+
+Filename Standards
+
+Filenames must follow the following format:
+<year>_<month>_<bank abbreviation>_<account ID number>_<company name word 1>_<company name word 2>
+So, for example, the March 2020 bank statement from ZYX Bank, internal account ID 3, for the company Illinois Farms, Inc would be as follows:
+2020_03_ZYX_3_Illinois_Farms.csv

@@ -43,7 +43,7 @@ class EnterBankTransactions(AutomatedDialog):
         elif self.company == 'About Frames':
             self.select_about_frames()
         else:
-            raise Error('Invalid company')
+            raise Exception('Invalid company')
         self.select_company_click_ok()
         
     def click_company_button(self):

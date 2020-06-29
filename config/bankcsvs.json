@@ -1,1 +1,1 @@
-{"standard":"standard.json", "SBH":"sbh.json", "PNC":"pnc.json", "Paypal":"paypal.json"}
+{"standard":"./config/standard.json", "SBH":"./config/sbh.json", "PNC":"./config/pnc.json", "Paypal":"./config/paypal.json"}
