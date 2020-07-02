@@ -53,7 +53,7 @@ class EnterBankTransactions(AutomatedDialog):
             filename_stem = fp
         filename_attrs = filename_stem.split('_')
         StatementMetadata = recordclass('StatementMetadata', ['year', 'month', 'bank', 'cash_acct', 'company_1', 'company_2'])
-        self.statement = StatementMetadata._make(filename_attrs)
+        self.statement = StatementMetadata._make(filename_attrs[0:6])
         self.company = self.statement.company_1 + ' ' + self.statement.company_2
     
     def load_statement_format(self):
@@ -236,7 +236,7 @@ class EnterBankTransactions(AutomatedDialog):
         pyautogui.click(867, 392)
         
     def enter_cash_acct(self, cash_acct):
-        pyautogui.moveTo(820, 418, duration=1)3/2/2020
+        pyautogui.moveTo(820, 418)
         pyautogui.click(820, 418)
         pyautogui.typewrite(cash_acct)
 
@@ -261,20 +261,19 @@ class EnterBankTransactions(AutomatedDialog):
         
     def enter_acct(self, acct):
         # account number field
-        pyautogui.moveTo(760, 564, duration=0.5)
+        pyautogui.moveTo(760, 564)
         pyautogui.click(760, 564)
         pyautogui.typewrite(acct)
         # click amount field
-        pyautogui.moveTo(1078, 563, duration=0.5)
+        pyautogui.moveTo(1078, 563)
         pyautogui.click(1078, 563)
         # click Accept
-        pyautogui.moveTo(1155, 542, duration=0.5)
+        pyautogui.moveTo(1155, 542)
         pyautogui.click(1155, 542)
         
     def post(self):
         pyautogui.moveTo(1043, 701)
         pyautogui.click(1043, 701)
-        time.sleep(3)
         
     def ok_post_prior_month(self):
         pyautogui.moveTo(889, 592)

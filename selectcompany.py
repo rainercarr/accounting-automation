@@ -5,7 +5,6 @@ class SelectCompany(AutomatedDialog):
         self.company = company
         self.ref_image = 'enterbanktransactions.png'
         super().__init__()
-        print(self.ref)
     
     def run(self):
         self.set_ref_location()

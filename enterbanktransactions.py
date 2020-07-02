@@ -69,7 +69,7 @@ class EnterBankTransactions(AutomatedDialog):
         #mouseover Enter Bank Transactions
         self.move(169, 76)
         self.click(169, 76)
-        time.sleep(5) # wait for slow dialog to open
+        time.sleep(8) # wait for slow dialog to open
 
     def enter_txns(self):
         for record in self.txns:
