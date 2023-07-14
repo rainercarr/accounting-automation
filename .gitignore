@@ -9,3 +9,4 @@ logs/
 config/pnc.json
 config/sbh.json
 config/paypal.json
+batch.bat
